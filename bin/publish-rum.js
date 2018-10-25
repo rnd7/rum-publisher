@@ -2,12 +2,17 @@
 
 console.log('@publish-rum')
 const spawn = require('child_process').spawn
+const execSync = require('child_process').execSync;
 const fs = require('fs')
 const pkg = JSON.parse(fs.readFileSync('package.json'))
 const args = process.argv.slice(2)
 let version = 'patch'
-let comment = 'Automatic Commit'
-let build = false
+let comment = 'rum-publisher commit'
+let transpile = false
+let branch
+let publish = false
+let access = 'public'
+
 
 for (let i = 0; i<args.length; i++) {
   if (args[i] === '-v')  {
@@ -15,14 +20,34 @@ for (let i = 0; i<args.length; i++) {
     if (args[i] === 'major') version = 'major'
     else if (args[i] === 'minor') version = 'minor'
     else if (args[i] === 'patch') version = 'patch'
-    else console.log('usage: -v major, minor or patch') && process.exit(1)
+    else console.log('usage: -v major, minor or patch') & process.exit(1)
   } else if (args[i] === '-m') {
     i++
     if (/^".*"$/.test(args[i])) comment = args[i]
-    else console.log('usage: -m "your commit message"') && process.exit(1)
-  } else if (args[i] === '-b') {
-    build = Object.keys(pkg.devDependecies).indexOf("@rnd7/rum-maker") > -1
+    else console.log('usage: -m "your commit message"') & process.exit(1)
+  } else if (args[i] === '-t') {
+    transpile = Object.keys(pkg.devDependecies).indexOf("@rnd7/rum-maker") > -1
       || Object.keys(pkg.dependecies).indexOf("@rnd7/rum-maker") > -1
+  } else if (args[i] === '-p') {
+    publish = true
+  } else if (args[i] === '-b') {
+    i++
+    if (args[i]) branch = args[i]
+    else console.log('usage: -b your-branch') & process.exit(1)
+  } else if (args[i] === '-a') {
+    i++
+    if (args[i] === 'public') access = 'public'
+    if (args[i] === 'restricted') access = 'restricted'
+    else console.log('usage: -a public or restricted') & process.exit(1)
+  }
+}
+
+if (publish && !branch) {
+  console.log('No branch passed as arg. Trying to get current branch.')
+  branch = execSync('git branch').replace(/^\*\s/, '')
+  if (!branch) {
+    console.log('Could not read current branch. Skipping publish')
+    publish = false
   }
 }
 
@@ -30,11 +55,13 @@ const queue = [
   ['Add changes', true, 'git', ['add', '--all']],
   ['Commit changes', true, 'git', ['commit', '-m', comment]],
   ['Update Version', true, 'npm', ['version', version]],
-  ['Build using rum-maker', build, 'npx', ['make-rum']],
-  ['Add builds', build, 'git', ['add', '--all']],
-  ['Commit builds', build, 'git', ['commit', '-m', function() {
+  ['Transpile using rum-maker', transpile, 'npx', ['make-rum']],
+  ['Add builds', transpile, 'git', ['add', '--all']],
+  ['Commit builds', transpile, 'git', ['commit', '-m', function() {
     return JSON.parse(fs.readFileSync('package.json')).version
-  }]]
+  }]],
+  //['Push to github', publish, 'git', ['push', 'origin', branch]]
+  //['Publish on npm', publish, 'npm', ['publish', '--access', access]]
 ]
 
 
@@ -59,18 +86,13 @@ function fmtCmd(cmd) {
 
 function next() {
   if (!queue.length) {
-    console.log("---")
-    console.log("done")
-    return process.exit(0)
+    return console.log("---") & console.log("done") & process.exit(0)
   }
   const cmd = queue.shift()
   const name = cmd.shift()
   const skip = !cmd.shift()
   console.log("---")
-  if (skip) {
-    console.log("Skipping:", name)
-    return next()
-  }
+  if (skip) return console.log("Skipping:", name) & next()
   console.log("Running:", name)
 
   evalArgs(cmd[1])
@@ -96,13 +118,3 @@ function next() {
 }
 
 next()
-
-
-/*
-
-
-git add --all
-git commit -m "comment"
-npm version patch
-
-*/

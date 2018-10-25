@@ -44,6 +44,7 @@ function evalArgs(args) {
       console.log('eval')
       try {
         args[i] = args[i]()
+        console.log(args[i])
       } catch (e) {
         console.error(e)
         process.exit(1)

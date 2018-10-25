@@ -72,7 +72,7 @@ function next() {
   console.log(fmtCmd(cmd))
   const child = spawn.apply(null, cmd)
   let error
-  child.stdout.setEncoding('utf8')
+  //child.stdout.setEncoding('utf8')
   process.stdin.on('data', (chunk) => {
     child.stdin.write(chunk)
   })

@@ -44,7 +44,7 @@ for (let i = 0; i<args.length; i++) {
 
 if (publish && !branch) {
   console.log('No branch passed as arg. Trying to get current branch.')
-  branch = execSync('git branch').replace(/^\*\s/, '')
+  branch = execSync('git branch',{encoding:'utf8'}).replace(/^\*\s/, '')
   if (!branch) {
     console.log('Could not read current branch. Skipping publish')
     publish = false

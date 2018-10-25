@@ -58,7 +58,11 @@ function fmtCmd(cmd) {
 }
 
 function next() {
-  if (!queue.length) return process.exit(0)
+  if (!queue.length) {
+    console.log("---")
+    console.log("done")
+    return process.exit(0)
+  }
   const cmd = queue.shift()
   const name = cmd.shift()
   const skip = !cmd.shift()

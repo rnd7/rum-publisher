@@ -62,11 +62,11 @@ function next() {
   const cmd = queue.shift()
   const name = cmd.shift()
   const skip = !cmd.shift()
+  console.log("---")
   if (skip) {
     console.log("Skipping:", name)
     return next()
   }
-  console.log("---")
   console.log("Running:", name)
 
   evalArgs(cmd[1])

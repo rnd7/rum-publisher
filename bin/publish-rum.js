@@ -7,7 +7,7 @@ const fs = require('fs')
 const pkg = JSON.parse(fs.readFileSync('package.json'))
 const args = process.argv.slice(2)
 let version = 'patch'
-let comment = 'rum-publisher commit'
+let comment = '"rum-publisher commit"'
 let transpile = false
 let branch
 let publish = false

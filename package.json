@@ -1,6 +1,6 @@
 {
   "name": "@rnd7/rum-publisher",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "Rumbullion git and npm helper",
   "main": "dist/rum-publisher.js",
   "engines": {

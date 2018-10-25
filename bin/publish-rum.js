@@ -55,7 +55,10 @@ for (let i = 0; i<args.length; i++) {
 
 if (publish && !remote) {
   console.log('No remote passed using -r. Trying to get current remote.')
-  remote = execSync('git remote',{encoding:'utf8'})
+  remote = execSync(
+    'git remote',
+    {encoding:'utf8'}
+  ).replace(/\n|\r/gm,'')
   if (remote) {
     console.log("Found remote, using:", remote)
   } else {
@@ -68,7 +71,10 @@ if (publish && !remote) {
 
 if (publish && !branch) {
   console.log('No branch passed using -b. Trying to get current branch.')
-  branch = execSync('git branch',{encoding:'utf8'}).replace(/^\*\s/, '')
+  branch = execSync(
+    'git branch',
+    {encoding:'utf8'}
+  ).replace(/\n|\r/gm,'""').replace(/^\*\s/, '')
   if (branch) {
     console.log("Found branch, using:", branch)
   } else {

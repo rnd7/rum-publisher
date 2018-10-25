@@ -7,7 +7,7 @@ const fs = require('fs')
 const pkg = JSON.parse(fs.readFileSync('package.json'))
 const args = process.argv.slice(2)
 let version = 'patch'
-let comment = '"rum-publisher commit"'
+let comment = 'rum-publisher commit'
 let transpile = false
 let branch
 let publish = false
@@ -24,7 +24,7 @@ for (let i = 0; i<args.length; i++) {
     else console.log('usage: -v major, minor or patch') & process.exit(1)
   } else if (args[i] === '-m') {
     i++
-    if (args[i]) comment = '"'+args[i]+'"'
+    if (args[i]) comment = args[i]
     else console.log('usage: -m "your commit message"') & process.exit(1)
   } else if (args[i] === '-t') {
     transpile = (

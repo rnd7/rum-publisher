@@ -26,8 +26,13 @@ for (let i = 0; i<args.length; i++) {
     if (/^".*"$/.test(args[i])) comment = args[i]
     else console.log('usage: -m "your commit message"') & process.exit(1)
   } else if (args[i] === '-t') {
-    transpile = Object.keys(pkg.devDependecies).indexOf("@rnd7/rum-maker") > -1
-      || Object.keys(pkg.dependecies).indexOf("@rnd7/rum-maker") > -1
+    transpile = (
+        pkg.devDependecies
+        && Object.keys(pkg.devDependecies).indexOf("@rnd7/rum-maker") > -1
+      ) || (
+        pkg.dependecies
+        && Object.keys(pkg.dependecies).indexOf("@rnd7/rum-maker") > -1
+      )
   } else if (args[i] === '-p') {
     publish = true
   } else if (args[i] === '-b') {

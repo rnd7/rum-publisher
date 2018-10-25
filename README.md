@@ -1,5 +1,5 @@
 # rum-publisher
-Rumbullion version and package management tool. Basically a simple Taskrunner to automate git commits, npm versioning and build using rum-maker.
+Rumbullion version and package management helper. Basically a simple Taskrunner to automate git commits, npm versioning and build using rum-maker.
 
 ## Install
 I prefer installation per package. But you can also install it global to link the make-rum command systemwide.
@@ -30,12 +30,12 @@ Transpile using optional [rum-maker](https://github.com/rnd7/rum-maker)
 -t
 ```
 
-Publish to github and npm
+Publish to github and npm.
 ```bash
 -p
 ```
 
-git branch. If not set the script will use your current local branch
+git branch. If not set the script will use your current local branch.
 ```bash
 -b master
 ```

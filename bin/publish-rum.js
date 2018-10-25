@@ -53,6 +53,7 @@ function evalArgs(args) {
 }
 
 function next() {
+  console.log(next)
   if (!queue.length) return
   const cmd = queue.shift()
   if (!cmd[0]) return console.log("Skipping", cmd[1]) && next()

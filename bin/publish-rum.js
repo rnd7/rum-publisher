@@ -2,9 +2,13 @@
 
 console.log('@publish-rum')
 const spawn = require('child_process').spawn
+const fs = require('fs')
+const pkg = fs.readFileSync('./package.json')
 const args = process.argv.slice(2)
 let version = 'patch'
 let comment = 'Automatic Commit'
+let build = false
+
 for (let i = 0; i<args.length; i++) {
   if (args[i] === '-v')  {
     i++
@@ -13,19 +17,47 @@ for (let i = 0; i<args.length; i++) {
     else if (args[i] === 'patch') version = 'patch'
     else console.log('usage: -v major, minor or patch') && process.exit(1)
   } else if (args[i] === '-m') {
+    i++
     if (/^".*"$/.test(args[i])) comment = args[i]
     else console.log('usage: -m "your commit message"') && process.exit(1)
+  } else if (args[i] === '-b') {
+    build = Object.keys(pkg.devDependecies).indexOf("@rnd7/rum-maker") > -1
+      || Object.keys(pkg.dependecies).indexOf("@rnd7/rum-maker") > -1
   }
 }
+
 const queue = [
-  ['git', ['add', '--all']],
-  ['npm', ['version', version, '--force']],
-  ['git', ['commit', '-m', comment]]
+  [true, 'git', ['add', '--all']],
+  [true, 'git', ['commit', '-m', comment]],
+  [true, 'npm', ['version', version]],
+  [build, 'npx make-rum', []],
+  [true, 'git', ['add', '--all']],
+  [true, 'git', ['commit', '-m', function() {
+    return fs.readFileSync('./package.json').version
+  }]]
 ]
+
+
+function evalArgs(args) {
+  for (let i = 0; i<args.length; i++) {
+    if (typeof args[i] === 'function') {
+      console.log('eval')
+      try {
+        args[i] = args[i]()
+      } catch (e) {
+        console.error(e)
+        process.exit(1)
+      }
+    }
+  }
+}
 
 function next() {
   if (!queue.length) return
   const cmd = queue.shift()
+  if (!cmd[0]) return console.log("Skipping", cmd[1]) && next()
+  cmd.shift()
+  evalArgs(cmd[1])
   console.log(cmd[0] + " " + cmd[1].join(' '))
   const child = spawn.apply(null, cmd)
   let error

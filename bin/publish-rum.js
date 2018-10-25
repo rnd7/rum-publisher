@@ -60,6 +60,8 @@ if (publish && !remote) {
     console.log("Found remote, using:", remote)
   } else {
     console.log('Could not read current remote. Skipping publish')
+    console.log('Add a remote using following command.')
+    console.log('git remote add origin https://github.com/you/repo.git')
     publish = false
   }
 }
@@ -71,8 +73,6 @@ if (publish && !branch) {
     console.log("Found branch, using:", branch)
   } else {
     console.log('Could not read current branch. Skipping publish.')
-    console.log('Add a remote using following command.')
-    console.log('git remote add origin https://github.com/you/repo.git')
     publish = false
   }
 }

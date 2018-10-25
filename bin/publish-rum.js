@@ -70,7 +70,9 @@ if (publish && !branch) {
   if (branch) {
     console.log("Found branch, using:", branch)
   } else {
-    console.log('Could not read current branch. Skipping publish')
+    console.log('Could not read current branch. Skipping publish.')
+    console.log('Add a remote using following command.')
+    console.log('git remote add origin https://github.com/you/repo.git')
     publish = false
   }
 }

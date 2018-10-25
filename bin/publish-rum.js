@@ -76,12 +76,9 @@ const queue = [
 function evalArgs(args) {
   for (let i = 0; i<args.length; i++) {
     if (typeof args[i] === 'function') {
-      console.log('eval')
       try {
         args[i] = args[i]()
-        console.log(args[i])
       } catch (e) {
-        console.error(e)
         process.exit(1)
       }
     }

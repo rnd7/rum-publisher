@@ -136,7 +136,7 @@ function next() {
     process.stdout.write(chunk)
   })
   child.stderr.on('data', (chunk) => {
-    console.log('error', chunk)
+    console.log('error', chunk.toString('utf8'))
     process.stderr.write(chunk)
     error = true
   })

@@ -33,6 +33,7 @@ for (let i = 0; i<args.length; i++) {
         pkg.dependecies
         && Object.keys(pkg.dependecies).indexOf("@rnd7/rum-maker") > -1
       )
+    if (!transpile) console.log("rum-maker not installed skipping transpile")
   } else if (args[i] === '-p') {
     publish = true
   } else if (args[i] === '-b') {

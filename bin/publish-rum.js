@@ -10,7 +10,7 @@ let version = 'patch'
 let message = 'rum-publisher commit'
 let build = false
 let branch
-let publish = false
+let publish = true
 let access = 'public'
 let remote
 

@@ -37,6 +37,7 @@ function next() {
     process.stdout.write(chunk)
   })
   child.stderr.on('data', (chunk) => {
+    console.log('error')
     process.stderr.write(chunk)
     error = true
   })

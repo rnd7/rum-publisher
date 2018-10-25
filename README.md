@@ -13,41 +13,52 @@ You run this command using npx when not installed globally
 npx publish-rum
 ```
 
+You might also invoke it by pointing node towards the bin js, though it is only recommended for development purposes or to publish the rum-publisher using rum-publisher.
+
+```bash
+node bin/publish-rum.js
+```
+
 ## command line args
 
-Commit message. Pass any string.
+Commit message. Pass any string. Defaults to "rum-publisher commit".
 ```bash
 -m "Commit for good sake"
 ```
 
-NPM Version semver. Pass major, minor or patch. It defaults to patch.
+NPM Version semver. Pass major, minor or patch. Defaults to patch.
 ```bash
 -v patch
 ```
 
-Transpile using optional [rum-maker](https://github.com/rnd7/rum-maker)
+Build using optional [rum-maker](https://github.com/rnd7/rum-maker)
 ```bash
--t
+-B
+--build
 ```
 
-Publish to github and npm.
+Publish to github and npm. Pass true or false. This defaults to true. You can use shortcuts (0,1 or t,f).
 ```bash
--p
+-p false
+--publish false
 ```
 
-git branch. If not set the script will use your current local branch.
+git branch. If not set the script will use your current local branch. If this fails publish is skipped.
 ```bash
--b master
+-B master
+--branch master
 ```
 
-git remote. If not set the script will use your current remote.
+git remote. If not set the script will use your current remote. If this fails publish is skipped.
 ```bash
--r origin
+-R origin
+--remote origin
 ```
 
 npm publish access. Use public or restricted. Defaults to public.
 ```bash
--a public
+-A public
+--access public
 ```
 
 ## License

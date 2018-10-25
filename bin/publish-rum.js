@@ -7,8 +7,8 @@ const fs = require('fs')
 const pkg = JSON.parse(fs.readFileSync('package.json'))
 const args = process.argv.slice(2)
 let version = 'patch'
-let comment = 'rum-publisher commit'
-let transpile = false
+let message = 'rum-publisher commit'
+let build = false
 let branch
 let publish = false
 let access = 'public'
@@ -16,36 +16,36 @@ let remote
 
 
 for (let i = 0; i<args.length; i++) {
-  if (args[i] === '-v')  {
+  if (args[i] === '-v' || args[i] === '--version')  {
     i++
     if (args[i] === 'major') version = 'major'
     else if (args[i] === 'minor') version = 'minor'
     else if (args[i] === 'patch') version = 'patch'
     else console.log('usage: -v major, minor or patch') & process.exit(1)
-  } else if (args[i] === '-m') {
+  } else if (args[i] === '-m' || args[i] === '--message') {
     i++
-    if (args[i]) comment = args[i]
+    if (args[i]) message = args[i]
     else console.log('usage: -m "your commit message"') & process.exit(1)
-  } else if (args[i] === '-t') {
-    transpile = (
+  } else if (args[i] === '-b' || args[i] === '--build') {
+    build = (
         pkg.devDependecies
         && Object.keys(pkg.devDependecies).indexOf("@rnd7/rum-maker") > -1
       ) || (
         pkg.dependecies
         && Object.keys(pkg.dependecies).indexOf("@rnd7/rum-maker") > -1
       )
-    if (!transpile) console.log("rum-maker not installed skipping transpile")
-  } else if (args[i] === '-p') {
-    publish = true
-  } else if (args[i] === '-b') {
+    if (!build) console.log("rum-maker not installed skipping build")
+  } else if (args[i] === '-p' || args[i] === '--publish') {
+    publish = /^true|t|1|yes|y$/i.test(args[i])
+  } else if (args[i] === '-B' || args[i] === '--branch') {
     i++
     if (args[i]) branch = args[i]
-    else console.log('usage: -b your-branch') & process.exit(1)
-  } else if (args[i] === '-r') {
+    else console.log('usage: -B your-branch') & process.exit(1)
+  } else if (args[i] === '-R' || args[i] === '--remote') {
     i++
     if (args[i]) branch = args[i]
-    else console.log('usage: -r remote') & process.exit(1)
-  } else if (args[i] === '-a') {
+    else console.log('usage: -R remote') & process.exit(1)
+  } else if (args[i] === '-A' || args[i] === '--access') {
     i++
     if (args[i] === 'public') access = 'public'
     if (args[i] === 'restricted') access = 'restricted'
@@ -85,17 +85,16 @@ if (publish && !branch) {
 
 const queue = [
   ['Add changes', true, 'git', ['add', '--all']],
-  ['Commit changes', true, 'git', ['commit', '-m', comment]],
+  ['Commit changes', true, 'git', ['commit', '-m', message]],
   ['Update Version', true, 'npm', ['version', version]],
-  ['Transpile using rum-maker', transpile, 'npx', ['make-rum']],
-  ['Add builds', transpile, 'git', ['add', '--all']],
-  ['Commit builds', transpile, 'git', ['commit', '-m', function() {
+  ['Transpile using rum-maker', build, 'npx', ['make-rum']],
+  ['Add builds', build, 'git', ['add', '--all']],
+  ['Commit builds', build, 'git', ['commit', '-m', function() {
     return JSON.parse(fs.readFileSync('package.json')).version
   }]],
   ['Push to github', publish, 'git', ['push', remote, branch]],
   ['Publish on npm', publish, 'npm', ['publish', '--access', access]],
 ]
-
 
 function evalArgs(args) {
   for (let i = 0; i<args.length; i++) {

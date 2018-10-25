@@ -4,7 +4,7 @@ console.log('@publish-rum')
 const spawn = require('child_process').spawn
 const execSync = require('child_process').execSync;
 const fs = require('fs')
-const pkg = JSON.parse(fs.readFileSync('package.json'))
+const pkg = JSON.parse(fs.readFileSync('./package.json'))
 const args = process.argv.slice(2)
 let version = 'patch'
 let message = 'rum-publisher commit'
@@ -54,7 +54,7 @@ for (let i = 0; i<args.length; i++) {
 }
 
 if (publish && !remote) {
-  console.log('No remote passed using -r. Trying to get current remote.')
+  console.log('No remote passed using -R. Trying to get current remote.')
   remote = execSync(
     'git remote',
     {encoding:'utf8'}
@@ -70,7 +70,7 @@ if (publish && !remote) {
 }
 
 if (publish && !branch) {
-  console.log('No branch passed using -b. Trying to get current branch.')
+  console.log('No branch passed using -B. Trying to get current branch.')
   branch = execSync(
     'git branch',
     {encoding:'utf8'}
@@ -90,7 +90,7 @@ const queue = [
   ['Transpile using rum-maker', build, 'npx', ['make-rum']],
   ['Add builds', build, 'git', ['add', '--all']],
   ['Commit builds', build, 'git', ['commit', '-m', function() {
-    return JSON.parse(fs.readFileSync('package.json')).version
+    return JSON.parse(fs.readFileSync('./package.json')).version
   }]],
   ['Push to github', publish, 'git', ['push', remote, branch]],
   ['Publish on npm', publish, 'npm', ['publish', '--access', access]],

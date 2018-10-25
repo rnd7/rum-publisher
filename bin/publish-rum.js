@@ -53,17 +53,21 @@ function evalArgs(args) {
   }
 }
 
+function fmtCmd(cmd) {
+  return cmd[0] + " " + cmd[1].join(' ')
+}
+
 function next() {
   if (!queue.length) return process.exit(0)
   const cmd = queue.shift()
   if (!cmd[0]) {
-    console.log("Skipping", cmd[1])
+    console.log("Skipping", fmtCmd(cmd))
     return next()
   }
 
   cmd.shift()
   evalArgs(cmd[1])
-  console.log(cmd[0] + " " + cmd[1].join(' '))
+  console.log(fmtCmd(cmd))
   const child = spawn.apply(null, cmd)
   let error
   child.stdout.setEncoding('utf8')

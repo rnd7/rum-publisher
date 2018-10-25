@@ -20,7 +20,7 @@ for (let i = 0; i<args.length; i++) {
 const queue = [
   ['git', ['add', '--all']],
   ['npm', ['version', version, '--force']],
-  //['git', ['commit', '-m', comment]]
+  ['git', ['commit', '-m', comment]]
 ]
 
 function next() {

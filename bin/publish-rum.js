@@ -136,12 +136,10 @@ function next() {
     process.stdout.write(chunk)
   })
   child.stderr.on('data', (chunk) => {
-    console.log('error', chunk.toString('utf8'))
     process.stderr.write(chunk)
-    error = true
   })
   child.on('close', (code) => {
-    if (error) process.exit(1)
+    if (code) process.exit(code)
     else next()
   })
 }

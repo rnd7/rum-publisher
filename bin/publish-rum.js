@@ -63,10 +63,10 @@ function next() {
   const name = cmd.shift()
   const skip = !cmd.shift()
   if (skip) {
-    console.log("Skipping", name)
+    console.log("Skipping:", name)
     return next()
   }
-  console.log("Running", name)
+  console.log("Running:", name)
 
   evalArgs(cmd[1])
   console.log(fmtCmd(cmd))

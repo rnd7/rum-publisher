@@ -56,7 +56,7 @@ function next() {
   console.log(next)
   if (!queue.length) return
   const cmd = queue.shift()
-  if (!cmd[0]) return console.log("Skipping", cmd[1]) && next()
+  if (!cmd[0]) return next() || console.log("Skipping", cmd[1])
   cmd.shift()
   evalArgs(cmd[1])
   console.log(cmd[0] + " " + cmd[1].join(' '))

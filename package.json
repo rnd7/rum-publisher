@@ -1,0 +1,31 @@
+{
+  "name": "@rnd7/rum-publisher",
+  "version": "1.0.1",
+  "description": "Rumbullion git and npm helper",
+  "main": "dist/rum-publisher.js",
+  "engines": {
+    "node": ">0.11.9"
+  },
+  "bin": {
+    "publish-rum": "bin/publish-rum.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rnd7/rum-publisher.git"
+  },
+  "keywords": [
+    "git",
+    "npm",
+    "publish"
+  ],
+  "author": "rnd7",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rnd7/rum-publisher/issues"
+  },
+  "homepage": "https://github.com/rnd7/rum-publisher#readme",
+  "dependencies": {}
+}

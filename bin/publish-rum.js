@@ -3,7 +3,7 @@
 console.log('@publish-rum')
 const spawn = require('child_process').spawn
 const fs = require('fs')
-const pkg = fs.readFileSync('./package.json')
+const pkg = JSON.parse(fs.readFileSync('package.json'))
 const args = process.argv.slice(2)
 let version = 'patch'
 let comment = 'Automatic Commit'
@@ -33,7 +33,7 @@ const queue = [
   [build, 'npx make-rum', []],
   [true, 'git', ['add', '--all']],
   [true, 'git', ['commit', '-m', function() {
-    return fs.readFileSync('./package.json').version
+    return JSON.parse(fs.readFileSync('package.json')).version
   }]]
 ]
 

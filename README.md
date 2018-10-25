@@ -45,5 +45,10 @@ git remote. If not set the script will use your current remote.
 -r origin
 ```
 
+npm publish access. Use public or restricted. Defaults to public.
+```bash
+-a public
+```
+
 ## License
 See the [LICENSE](https://github.com/rnd7/rum-publisher/tree/master/LICENSE.md) file for software license rights and limitations (MIT).

@@ -25,5 +25,25 @@ NPM Version semver. Pass major, minor or patch. It defaults to patch.
 -v patch
 ```
 
+Transpile using optional [rum-maker](https://github.com/rnd7/rum-maker)
+```bash
+-t
+```
+
+Publish to github and npm
+```bash
+-p
+```
+
+git branch. If not set the script will use your current local branch
+```bash
+-b master
+```
+
+git remote. If not set the script will use your current remote.
+```bash
+-r origin
+```
+
 ## License
-See the [LICENSE](https://github.com/rnd7/rum-maker/tree/master/LICENSE.md) file for software license rights and limitations (MIT).
+See the [LICENSE](https://github.com/rnd7/rum-publisher/tree/master/LICENSE.md) file for software license rights and limitations (MIT).

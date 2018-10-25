@@ -12,6 +12,7 @@ let transpile = false
 let branch
 let publish = false
 let access = 'public'
+let remote
 
 
 for (let i = 0; i<args.length; i++) {
@@ -40,11 +41,26 @@ for (let i = 0; i<args.length; i++) {
     i++
     if (args[i]) branch = args[i]
     else console.log('usage: -b your-branch') & process.exit(1)
+  } else if (args[i] === '-r') {
+    i++
+    if (args[i]) branch = args[i]
+    else console.log('usage: -r remote') & process.exit(1)
   } else if (args[i] === '-a') {
     i++
     if (args[i] === 'public') access = 'public'
     if (args[i] === 'restricted') access = 'restricted'
     else console.log('usage: -a public or restricted') & process.exit(1)
+  }
+}
+
+if (publish && !remote) {
+  console.log('No remote passed using -r. Trying to get current remote.')
+  remote = execSync('git remote',{encoding:'utf8'})
+  if (remote) {
+    console.log("Found remote, using:", remote)
+  } else {
+    console.log('Could not read current remote. Skipping publish')
+    publish = false
   }
 }
 

@@ -27,12 +27,12 @@ for (let i = 0; i<args.length; i++) {
 }
 
 const queue = [
-  [true, 'git', ['add', '--all']],
-  [true, 'git', ['commit', '-m', comment]],
-  [true, 'npm', ['version', version]],
-  [build, 'npx', ['make-rum']],
-  [build, 'git', ['add', '--all']],
-  [build, 'git', ['commit', '-m', function() {
+  ['Add changes', true, 'git', ['add', '--all']],
+  ['Commit changes', true, 'git', ['commit', '-m', comment]],
+  ['Update Version', true, 'npm', ['version', version]],
+  ['Build using rum-maker', build, 'npx', ['make-rum']],
+  ['Add builds', build, 'git', ['add', '--all']],
+  ['Commit builds', build, 'git', ['commit', '-m', function() {
     return JSON.parse(fs.readFileSync('package.json')).version
   }]]
 ]
@@ -60,11 +60,13 @@ function fmtCmd(cmd) {
 function next() {
   if (!queue.length) return process.exit(0)
   const cmd = queue.shift()
+  const name = cmd.shift()
   const skip = !cmd.shift()
   if (skip) {
-    console.log("Skipping", fmtCmd(cmd))
+    console.log("Skipping", name)
     return next()
   }
+  console.log("Running", name)
 
   evalArgs(cmd[1])
   console.log(fmtCmd(cmd))

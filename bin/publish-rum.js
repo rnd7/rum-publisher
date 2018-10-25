@@ -74,7 +74,7 @@ if (publish && !branch) {
   branch = execSync(
     'git branch',
     {encoding:'utf8'}
-  ).replace(/\n|\r/gm,'""').replace(/^\*\s/, '')
+  ).replace(/\n|\r/gm,'').replace(/^\*\s/, '')
   if (branch) {
     console.log("Found branch, using:", branch)
   } else {

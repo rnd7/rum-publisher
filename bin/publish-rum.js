@@ -128,16 +128,9 @@ function next() {
   console.log(fmtCmd(cmd))
   const child = spawn.apply(null, cmd)
   let error
-  //child.stdout.setEncoding('utf8')
-  process.stdin.on('data', (chunk) => {
-    child.stdin.write(chunk)
-  })
-  child.stdout.on('data', (chunk) => {
-    process.stdout.write(chunk)
-  })
-  child.stderr.on('data', (chunk) => {
-    process.stderr.write(chunk)
-  })
+  process.stdin.pipe(child.stdin)
+  child.stdout.pipe(process.stdout)
+  child.stderr.pipe(process.stderr)
   child.on('close', (code) => {
     if (code) process.exit(code)
     else next()

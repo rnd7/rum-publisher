@@ -26,6 +26,7 @@ const queue = [
 function next() {
   if (!queue.length) return
   const cmd = queue.shift()
+  console.log(cmd)
   const child = spawn.apply(null, cmd)
   let error
   child.stdout.setEncoding('utf8')

@@ -60,12 +60,12 @@ function fmtCmd(cmd) {
 function next() {
   if (!queue.length) return process.exit(0)
   const cmd = queue.shift()
-  if (!cmd[0]) {
+  const skip = !cmd.shift()
+  if (skip) {
     console.log("Skipping", fmtCmd(cmd))
     return next()
   }
 
-  cmd.shift()
   evalArgs(cmd[1])
   console.log(fmtCmd(cmd))
   const child = spawn.apply(null, cmd)

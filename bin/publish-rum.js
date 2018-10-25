@@ -54,7 +54,7 @@ function evalArgs(args) {
 }
 
 function next() {
-  if (!queue.length) return
+  if (!queue.length) return process.exit(0)
   const cmd = queue.shift()
   if (!cmd[0]) {
     console.log("Skipping", cmd[1])

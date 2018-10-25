@@ -30,7 +30,7 @@ const queue = [
   [true, 'git', ['add', '--all']],
   [true, 'git', ['commit', '-m', comment]],
   [true, 'npm', ['version', version]],
-  [build, 'npx make-rum', []],
+  [build, 'npx', ['make-rum']],
   [build, 'git', ['add', '--all']],
   [build, 'git', ['commit', '-m', function() {
     return JSON.parse(fs.readFileSync('package.json')).version
